@@ -1,0 +1,27 @@
+
+# 静的レイヤトピック名
+static_layer_topic:   static_layer_map
+
+# 準静的レイヤトピック名
+q_static_layer_topic: quasi_static_layer_map
+
+# 動的レイヤトピック名
+dynamic_layer_topic:  dynamic_layer_map
+
+# 進入禁止領域レイヤトピック名
+no_entry_layer_topic: cvt_no_entry_layer_map
+
+# ソシオ地図トピック名
+socio_map_topic:      map_movebase
+
+# エゴ地図トピック名
+ego_map_topic:        map
+
+# エゴ地図の統合周期
+egomap_mix_interval:  10
+
+# エゴ地図の統合モード(true:1回のみ)
+egomap_mix_only_once: false
+
+# 統合する動的レイヤ地図の占有率のしきい値設定(0~100%)
+dynamic_layer_occupancy_thresholds: 100

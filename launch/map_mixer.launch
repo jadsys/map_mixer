@@ -1,0 +1,33 @@
+<launch>
+	<!-- Arguments -->
+	<arg name="USE_MAP_SERVER" default="false" />
+	<arg name="USE_MAP_VIEWER" default="false" />
+	<arg name="MAP_FILE_STATIC_LAYER" default="/maps/static_layer.yaml"/>
+	<arg name="MAP_FILE_SEMI_STATIC_LAYER" default="/maps/quasi_static_layer.yaml"/>
+	<arg name="MAP_FILE_EXCLUSION_LAYER" default="/maps/no_entry_layer.yaml"/>
+
+	<!-- Map server -->
+	<group if="$(arg USE_MAP_SERVER)">
+		<node pkg="map_server" name="map_server_static_layer" type="map_server" args="$(find map_mixer)$(arg MAP_FILE_STATIC_LAYER)" output="screen">
+			<remap from="map" to="static_layer_map" />
+		</node>
+
+		<node pkg="map_server" name="map_server_qstatic_layer" type="map_server" args="$(find map_mixer)$(arg MAP_FILE_SEMI_STATIC_LAYER)" output="screen">
+			<remap from="map" to="quasi_static_layer_map" />
+		</node>
+		
+		<node pkg="map_server" name="map_server_no_entry_layer" type="map_server" args="$(find map_mixer)$(arg MAP_FILE_EXCLUSION_LAYER)" output="screen">
+			<remap from="map" to="cvt_no_entry_layer_map" />
+		</node>
+	</group>
+	
+	<!-- Map Mixier -->
+	<node pkg="map_mixer" type="map_mixer_node" name="map_mixer_node" output="screen" >
+		<rosparam file="$(find map_mixer)/param/map_mixer_param.yaml" command="load" />
+	</node>
+
+	<!-- rviz(視覚化ツール) -->
+	<group if="$(arg USE_MAP_VIEWER)">
+		<node pkg="rviz" type="rviz" args="-d '$(find map_mixer)/rviz/map_layer.rviz'" name="map_to_cloud_rviz" respawn="true" />
+	</group>
+</launch>
